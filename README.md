@@ -6,4 +6,4 @@ Ridwan-Salim - Ridwan Salim
 
 Krishp2504 - Krish Patel
 
-- Abdullah Gozubek
+Abdullah Yasir Gozubek - Abdullah Gozubek
