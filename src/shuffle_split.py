@@ -11,11 +11,11 @@ if not (cwd / "src").is_dir():
 
 # Shuffle and split
 
-def shuffle_and_split(filepath, split_count, datatest2_output, datavalidation_output):
+def shuffle_and_split(input_file, split_count, datatest2_output, datavalidation_output):
     
     # Open the file and read its contents
     
-    with open(filepath, 'r') as file:
+    with open(input_file, 'r') as file:
         lines = file.readlines()
         
     # Set the header line and the lines to be shuffled
@@ -32,16 +32,25 @@ def shuffle_and_split(filepath, split_count, datatest2_output, datavalidation_ou
     lines_datatest2 = [vars_header] + data_lines[:split_count]
     lines_datavalidation = [vars_header] + data_lines[split_count:]
     
+    # Overwrite the old file names
+    
+    file.close()
+    os.rename('datasets\datatest2.txt', 'datasets\datatest2_old.txt')
+    os.rename('datasets\datatest.txt','datasets\datatest1.txt')
+    
     # Write the each set of lines to their output files
     
     with open(datatest2_output, 'w') as datatest2:
         datatest2.writelines(lines_datatest2)
         print("New datatest2 file created")
+        datatest2.close()
     
     with open(datavalidation_output, 'w') as datavalidation:
         datavalidation.writelines(lines_datavalidation)
         print("New datavalidation file created")
+        datavalidation.close()
        
+
 # Split count = number of lines for datatest.txt
 
 split_count = 2665
@@ -49,7 +58,8 @@ split_count = 2665
 # Files
 
 input_file = 'datasets\datatest2.txt'
-file_datatest2_new = 'datasets\datatest2_new.txt'
+
+file_datatest2_new = 'datasets\datatest2.txt'
 file_datavalidation = 'datasets\datavalidation.txt'
 
 shuffle_and_split(input_file, split_count, file_datatest2_new, file_datavalidation)

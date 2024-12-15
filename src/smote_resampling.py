@@ -11,13 +11,20 @@ cwd = Path().resolve()
 if not (cwd / "src").is_dir():
     os.chdir(cwd.parent)
     
-def smote_data(filepath):
-    df = pd.read_csv(filepath)
-    label_encoder = LabelEncoder()
+# using the SMOTE library on the data and saving it
     
+def smote_data(input_file):
+    
+    # Reading the file
+    
+    df = pd.read_csv(input_file)
+    
+    # Encoding the non-numeric entry date into a numeric datatype that can be used to SMOTE
+    
+    label_encoder = LabelEncoder()
     df['date'] = label_encoder.fit_transform(df['date'])
     
-    # print(df.info())
+    
     
     X = df.drop(columns = 'Occupancy')
     y = df['Occupancy']
@@ -25,12 +32,14 @@ def smote_data(filepath):
     smote = SMOTE(random_state = 42)
     X_res, y_res = smote.fit_resample(X, y)
     
-    # print(f"Before SMOTE:\n{y.value_counts()}")
-    # print(f"After SMOTE:\n{y_res.value_counts()}")
-    
     df_resampled = pd.concat([X_res, y_res], axis=1)
-    df_resampled.to_csv('datasets\\resampled\datatraining.txt', sep=',', index=False, quoting=pd.io.common.csv.QUOTE_ALL)
+    df_resampled.columns = df.columns
+    df_resampled.to_csv(output_file, index = False, quoting = 1)
     
     
-filepath = 'datasets\datatestCOPY.txt'
-smote_data(filepath)
+input_file = 'datasets\datatraining.txt'
+
+os.mkdir('datasets\\resampled')
+
+output_file = 'datasets\\resampled\datatraining.txt'
+smote_data(input_file)

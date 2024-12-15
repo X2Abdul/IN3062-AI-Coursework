@@ -34,7 +34,7 @@ def visualise_distribution(filepath, test_class = "Occupancy"):
     perc_0s = round(((count_0s) / (count_0s + count_1s)) * 100, 2)
     perc_1s = round(((count_1s) / (count_0s + count_1s)) * 100, 2)
     
-    print(f"Ratio (True:False) = {perc_1s}:{perc_0s}")
+    print(f"Ratio (True:False) = {perc_1s}:{perc_0s}\n")
     
 
 # Files
