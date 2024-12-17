@@ -102,3 +102,30 @@ def plot_feature_importance(model, feature_names):
     plt.ylabel('Features')
     plt.tight_layout()
     plt.show()
+
+
+# Load dataset
+X, y = load_data('datasets/datatraining.txt')
+
+# Prepare data
+X_train, X_test, y_train, y_test = prepare_data(X, y)
+
+# Train model
+model = train_logistic_regression(X_train, y_train)
+
+# Evaluate model
+metrics, y_pred = evaluate_model(model, X_test, y_test)
+
+# Print metrics
+print("Model Performance Metrics:")
+for metric, value in metrics.items():
+    print(f"{metric}: {value:.4f}")
+
+# Print detailed classification report
+print("\nDetailed Classification Report:")
+print(classification_report(y_test, y_pred))
+
+# Visualizations
+plot_confusion_matrix(y_test, y_pred)
+plot_feature_importance(model, X.columns)
+
