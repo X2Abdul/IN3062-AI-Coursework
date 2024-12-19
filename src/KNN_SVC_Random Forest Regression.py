@@ -53,8 +53,8 @@ def prepare_data(X, y, test_size=0.2, random_state=42):
     return X_train_scaled, X_test_scaled, y_train, y_test
 
 # Train KNN
-def train_knn(X_train, y_train, n_neighbors=5):
-    knn = KNeighborsClassifier(n_neighbors=n_neighbors)
+def train_knn(X_train, y_train, n_neighbors=5, weights='uniform', p=2):
+    knn = KNeighborsClassifier(n_neighbors=n_neighbors, weights=weights, p=p)
     knn.fit(X_train, y_train)
     return knn
 
