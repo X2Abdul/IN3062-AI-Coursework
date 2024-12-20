@@ -22,6 +22,8 @@ from sklearn.model_selection import RandomizedSearchCV
 from scipy.stats import randint
 from sklearn.ensemble import GradientBoostingClassifier
 import matplotlib.pyplot as plt
+from sklearn.metrics import precision_recall_curve, auc
+from sklearn.metrics import roc_curve, roc_auc_score
 
 
 # Test if in the correct working directory
@@ -242,5 +244,109 @@ print(gb_tuned_metrics)
 plot_confusion_matrix(y_test, gb_tuned_preds, "Gradient Boosting (After Tuning)")
 
 
+
+
+
+#MODEL PLOTS FOR AFTER HYPERPARAMETER TUNING
+
+# KNN After Tuning
+knn_tuned_model = train_knn_with_tuning(X_train, y_train)
+knn_tuned_metrics, knn_tuned_preds = evaluate_classification_model(knn_tuned_model, X_test, y_test)
+print("KNN After Tuning Metrics:")
+print(knn_tuned_metrics)
+# plot_confusion_matrix(y_test, knn_tuned_preds, "KNN After Tuning")
+
+# SVC After Tuning
+svc_tuned_model = train_svc_with_tuning(X_train, y_train)
+svc_tuned_metrics, svc_tuned_preds = evaluate_classification_model(svc_tuned_model, X_test, y_test)
+print("SVC After Tuning Metrics:")
+print(svc_tuned_metrics)
+# plot_confusion_matrix(y_test, svc_tuned_preds, "SVC After Tuning")
+
+# Gradient Boosting After Tuning
+gb_tuned_model = train_gradient_boosting_with_tuning(X_train, y_train)
+gb_tuned_metrics, gb_tuned_preds = evaluate_classification_model(gb_tuned_model, X_test, y_test)
+print("Gradient Boosting Metrics (After Tuning):")
+print(gb_tuned_metrics)
+plot_confusion_matrix(y_test, gb_tuned_preds, "Gradient Boosting (After Tuning)")
+
+
+
+
+
+
+# PRECISION AND RECALL PLOT FOR AFTER HYPERPARAMETER TUNING MODELS
+
+def plot_precision_recall_comparison(models, X_test, y_test):
+    
+    plt.figure(figsize=(10, 7))
+    
+    for name, model in models.items():
+        # Get predicted probabilities (for models that support predict_proba)
+        if hasattr(model, "predict_proba"):
+            y_scores = model.predict_proba(X_test)[:, 1]
+        else:  # For models like SVM that use decision_function
+            y_scores = model.decision_function(X_test)
+        
+        # Calculate precision-recall
+        precision, recall, _ = precision_recall_curve(y_test, y_scores)
+        auc_pr = auc(recall, precision)
+        
+        # Plot curve
+        plt.plot(recall, precision, label=f'{name} (AUC = {auc_pr:.2f})')
+    
+    plt.title('Precision-Recall Curve (After Tuning)', fontsize=16)
+    plt.xlabel('Recall', fontsize=14)
+    plt.ylabel('Precision', fontsize=14)
+    plt.legend(loc='lower left', fontsize=12)
+    plt.grid(alpha=0.3)
+    plt.tight_layout()
+    plt.show()
+
+tuned_models = {
+    "KNN": knn_tuned_model,  # Trained KNN model after tuning
+    "SVC": svc_tuned_model,  # Trained SVC model after tuning
+    "Gradient Boosting": gb_tuned_model, # Trained Gradient Boosting model after tuning
+}
+
+# Call the function with trained models, X_test, and y_test
+plot_precision_recall_comparison(tuned_models, X_test, y_test)
+
+
+
+
+
+
+
+# ROC CURVE PLOT FOR AFTER HYPERPARAMETER TUNING MODELS
+
+
+# Function to plot ROC Curve
+def plot_roc_curve(models, X_test, y_test, title="ROC Curve for Tuned Models"):
+    plt.figure(figsize=(10, 8))
+    for model_name, model in models.items():
+        y_prob = model.predict_proba(X_test)[:, 1]  # Get probability for class 1
+        fpr, tpr, _ = roc_curve(y_test, y_prob)
+        auc = roc_auc_score(y_test, y_prob)
+        plt.plot(fpr, tpr, label=f"{model_name} (AUC = {auc:.2f})")
+    
+    plt.plot([0, 1], [0, 1], 'k--')  # Diagonal line for random guessing
+    plt.title(title)
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('True Positive Rate')
+    plt.legend(loc="lower right")
+    plt.grid()
+    plt.tight_layout()
+    plt.show()
+
+# Dictionary of tuned models
+tuned_models = {
+    "KNN After Tuning": knn_tuned_model,
+    "SVC After Tuning": svc_tuned_model,
+    "Gradient Boosting": gb_tuned_model,
+}
+
+# Plot ROC curve
+plot_roc_curve(tuned_models, X_test, y_test)
 
 
