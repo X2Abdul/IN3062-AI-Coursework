@@ -16,6 +16,7 @@ from sklearn.metrics import (
     classification_report
 )
 
+
 # --------------------------------------------------------------------------------------------
 
 
@@ -109,8 +110,6 @@ cwd = Path().resolve()
 
 if not (cwd / "src").is_dir():
     os.chdir(cwd.parent)
-
-# Move to the datasets directory and make the usable directory
 
 os.chdir(cwd / "datasets/usable")
 cwd = Path().resolve()

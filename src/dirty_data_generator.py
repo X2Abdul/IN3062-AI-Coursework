@@ -36,15 +36,15 @@ def generate_dirty_data(num_samples):
 
         date = f'"{random.randint(1, num_samples)}"'
 
-        temperature = round(random.uniform(*r_temp_range) if random.random() < 0.7 else random.uniform(*ur_temp_range), 5)
+        temperature = round(random.uniform(*r_temp_range) if random.random() < 0.5 else random.uniform(*ur_temp_range), 5)
 
-        humidity = round(random.uniform(*r_humidity_range) if random.random() < 0.7 else random.uniform(*ur_humidity_range), 5)
+        humidity = round(random.uniform(*r_humidity_range) if random.random() < 0.5 else random.uniform(*ur_humidity_range), 5)
 
-        light = round(random.uniform(*r_light_range) if random.random() < 0.7 else random.uniform(*ur_light_range), 2)
+        light = round(random.uniform(*r_light_range) if random.random() < 0.5 else random.uniform(*ur_light_range), 2)
 
-        co2 = round(random.uniform(*r_co2_range) if random.random() < 0.7 else random.uniform(*ur_co2_range), 2)
+        co2 = round(random.uniform(*r_co2_range) if random.random() < 0.5 else random.uniform(*ur_co2_range), 2)
 
-        humidity_ratio = round(random.uniform(*r_humidity_ratio_range) if random.random() < 0.7 else random.uniform(*ur_humidity_ratio_range), 10)
+        humidity_ratio = round(random.uniform(*r_humidity_ratio_range) if random.random() < 0.5 else random.uniform(*ur_humidity_ratio_range), 10)
 
         occupancy = random.choice([0, 1])
 
@@ -108,8 +108,6 @@ cwd = Path().resolve()
 
 samples = 10000
 dirty_data = generate_dirty_data(samples)
-
-print(dirty_data)
 
 # Save dirty data to file and shuffle
 
