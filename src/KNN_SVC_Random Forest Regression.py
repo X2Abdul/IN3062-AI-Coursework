@@ -227,41 +227,14 @@ knn_tuned_model = train_knn_with_tuning(X_train, y_train)
 knn_tuned_metrics, knn_tuned_preds = evaluate_classification_model(knn_tuned_model, X_test, y_test)
 print("KNN After Tuning Metrics:")
 print(knn_tuned_metrics)
-# plot_confusion_matrix(y_test, knn_tuned_preds, "KNN After Tuning")
+plot_confusion_matrix(y_test, knn_tuned_preds, "KNN After Tuning")
 
 # SVC After Tuning
 svc_tuned_model = train_svc_with_tuning(X_train, y_train)
 svc_tuned_metrics, svc_tuned_preds = evaluate_classification_model(svc_tuned_model, X_test, y_test)
 print("SVC After Tuning Metrics:")
 print(svc_tuned_metrics)
-# plot_confusion_matrix(y_test, svc_tuned_preds, "SVC After Tuning")
-
-# Gradient Boosting After Tuning
-gb_tuned_model = train_gradient_boosting_with_tuning(X_train, y_train)
-gb_tuned_metrics, gb_tuned_preds = evaluate_classification_model(gb_tuned_model, X_test, y_test)
-print("Gradient Boosting Metrics (After Tuning):")
-print(gb_tuned_metrics)
-plot_confusion_matrix(y_test, gb_tuned_preds, "Gradient Boosting (After Tuning)")
-
-
-
-
-
-#MODEL PLOTS FOR AFTER HYPERPARAMETER TUNING
-
-# KNN After Tuning
-knn_tuned_model = train_knn_with_tuning(X_train, y_train)
-knn_tuned_metrics, knn_tuned_preds = evaluate_classification_model(knn_tuned_model, X_test, y_test)
-print("KNN After Tuning Metrics:")
-print(knn_tuned_metrics)
-# plot_confusion_matrix(y_test, knn_tuned_preds, "KNN After Tuning")
-
-# SVC After Tuning
-svc_tuned_model = train_svc_with_tuning(X_train, y_train)
-svc_tuned_metrics, svc_tuned_preds = evaluate_classification_model(svc_tuned_model, X_test, y_test)
-print("SVC After Tuning Metrics:")
-print(svc_tuned_metrics)
-# plot_confusion_matrix(y_test, svc_tuned_preds, "SVC After Tuning")
+plot_confusion_matrix(y_test, svc_tuned_preds, "SVC After Tuning")
 
 # Gradient Boosting After Tuning
 gb_tuned_model = train_gradient_boosting_with_tuning(X_train, y_train)
