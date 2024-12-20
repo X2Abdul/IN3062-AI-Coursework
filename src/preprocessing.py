@@ -13,7 +13,7 @@ def fix_header(input_file):
     
     # Reading the file
     
-    with open(input_file, 'r') as file:
+    with open(input_file, 'r+') as file:
         lines = file.readlines()
         
         # Split the headings line by the first comma delimiter
@@ -24,10 +24,9 @@ def fix_header(input_file):
         
         parts[0] = '"ID","Date",'
         lines[0] = parts[0] + parts[1]
+
+        # Writing to file
         
-    # Writing to the file  
-        
-    with open(input_file, 'w') as file:
         file.writelines(lines)
 
     file.close()
@@ -84,9 +83,8 @@ def print_distribution(file, test_variable):
     
     # Print the differences
     
-    print(f"{file} {test_variable} Distribution:")
-    print(f"Total 0s: {count_0s}")
-    print(f"Total 1s: {count_1s}")
+    print(f"Distribution of {file}\nTest variable: {test_variable}")
+    print(f"Total 0s: {count_0s}\nTotal 1s: {count_1s}")
     
     # Calculate as a ratio
     
@@ -130,9 +128,6 @@ def smote_data(file):
 # Test if in the correct working directory, else change current working directory
 
 cwd = Path().resolve()
-
-while (not (cwd / "src").is_dir()):
-    os.chdir(cwd.parent)
 
 if not (cwd / "src").is_dir():
     os.chdir(cwd.parent)
@@ -197,7 +192,7 @@ print("File " + datatest2 + " has been split")
 
 # Testing the balance of the training dataset
 
-print("---------- Occupancy distribution before ----------")
+print("--------------------------------------------------")
 
 print_distribution(datatraining, "Occupancy")
 
@@ -205,7 +200,7 @@ print_distribution(datatraining, "Occupancy")
 
 smote_data(datatraining)
 
-print("---------- Occupancy distribution after ----------")
+print("--------------------------------------------------")
 
 print_distribution(datatraining, "Occupancy")
 
