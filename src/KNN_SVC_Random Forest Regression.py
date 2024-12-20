@@ -77,6 +77,14 @@ def train_random_forest(X_train, y_train, n_estimators=100):
     rf.fit(X_train, y_train)
     return rf
 
+
+# Train Gradient Boosting
+def train_gradient_boosting(X_train, y_train):
+    gb_clf = GradientBoostingClassifier(random_state=42)
+    gb_clf.fit(X_train, y_train)
+    return gb_clf
+
+
 # Evaluate classification model
 def evaluate_classification_model(model, X_test, y_test):
     # Predictions
