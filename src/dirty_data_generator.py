@@ -32,19 +32,25 @@ def generate_dirty_data(num_samples):
 
     for i in range(num_samples):
 
+        # Random number
+        
         id = f'"{random.randint(1, num_samples)}"'
 
         date = f'"{random.randint(1, num_samples)}"'
 
-        temperature = round(random.uniform(*r_temp_range) if random.random() < 0.5 else random.uniform(*ur_temp_range), 5)
+        # 23% chance of being in the realistic value range else is in the unrealistic value range, which includes the realistic value range
 
-        humidity = round(random.uniform(*r_humidity_range) if random.random() < 0.5 else random.uniform(*ur_humidity_range), 5)
+        temperature = round(random.uniform(*r_temp_range) if random.random() < 0.23 else random.uniform(*ur_temp_range), 5)
 
-        light = round(random.uniform(*r_light_range) if random.random() < 0.5 else random.uniform(*ur_light_range), 2)
+        humidity = round(random.uniform(*r_humidity_range) if random.random() < 0.23 else random.uniform(*ur_humidity_range), 5)
 
-        co2 = round(random.uniform(*r_co2_range) if random.random() < 0.5 else random.uniform(*ur_co2_range), 2)
+        light = round(random.uniform(*r_light_range) if random.random() < 0.23 else random.uniform(*ur_light_range), 2)
 
-        humidity_ratio = round(random.uniform(*r_humidity_ratio_range) if random.random() < 0.5 else random.uniform(*ur_humidity_ratio_range), 10)
+        co2 = round(random.uniform(*r_co2_range) if random.random() < 0.23 else random.uniform(*ur_co2_range), 2)
+
+        humidity_ratio = round(random.uniform(*r_humidity_ratio_range) if random.random() < 0.23 else random.uniform(*ur_humidity_ratio_range), 10)
+
+        # Equal chance of being a 0 or 1
 
         occupancy = random.choice([0, 1])
 
@@ -66,29 +72,31 @@ def insert_data(input_file, input_data, has_header, shuffle):
 
     if (shuffle):
 
-        # Shuffle data
-
         with open(input_file, 'r+') as file:
             lines = file.readlines()
 
-            # Ignore header
+        if (has_header):
 
-            if (has_header):
-                vars_header = lines[0]
-                data_lines = lines[1:]
+            # Split header off
 
-                random.shuffle(data_lines)
+            vars_header = lines[0]
+            data_lines = lines[1:]
 
-                for line in data_lines:
-                    file.write(f"{line}")
+            # Shuffle only the data lines and put together again
 
-            else:
-                random.shuffle(lines)
+            random.shuffle(data_lines)
+            lines = [vars_header] + data_lines
 
-                for line in data_lines:
-                    file.write(f"{line}")
+        else:
+
+            # Only shuffle
+
+            random.shuffle(lines)
+            file.writelines(lines)
             
-            file.close()    
+        file.close()
+
+    print("Data inserted successfully")
 
 
 # --------------------------------------------------------------------------------------------
@@ -98,8 +106,14 @@ def insert_data(input_file, input_data, has_header, shuffle):
 
 cwd = Path().resolve()
 
-if not (cwd / "src").is_dir():
-    os.chdir(cwd.parent)
+while True:
+
+    cwd = Path().resolve()
+
+    if not (cwd / "src").is_dir():
+        os.chdir(cwd.parent)
+    else:
+        break
 
 os.chdir(cwd / "datasets/usable")
 cwd = Path().resolve()

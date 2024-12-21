@@ -35,7 +35,8 @@ def load_data(filepath):
 
 def train_logistic_regression(X_train, y_train):
     model = LogisticRegression(
-        random_state=42
+        random_state=42,
+        max_iter = 1000
     )
     model.fit(X_train, y_train)
     return model
@@ -106,10 +107,14 @@ def plot_feature_importance(dataset_name, feature_names):
 
 # Test if in the correct working directory, else change current working directory
 
-cwd = Path().resolve()
+while True:
 
-if not (cwd / "src").is_dir():
-    os.chdir(cwd.parent)
+    cwd = Path().resolve()
+
+    if not (cwd / "src").is_dir():
+        os.chdir(cwd.parent)
+    else:
+        break
 
 os.chdir(cwd / "datasets/usable")
 cwd = Path().resolve()

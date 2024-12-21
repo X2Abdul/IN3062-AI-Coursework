@@ -16,18 +16,18 @@ def fix_header(input_file):
     with open(input_file, 'r+') as file:
         lines = file.readlines()
         
-        # Split the headings line by the first comma delimiter
-        
-        parts = lines[0].split(',',1)
-        
-        # Reassign the first part and join
-        
-        parts[0] = '"ID","Date",'
-        lines[0] = parts[0] + parts[1]
+    # Split the headings line by the first comma delimiter
+    
+    parts = lines[0].split(',',1)
+    
+    # Reassign the first part and join
+    
+    parts[0] = '"ID","Date",'
+    lines[0] = parts[0] + parts[1]
 
-        # Writing to file
-        
-        file.writelines(lines)
+    # Writing to file
+    
+    file.writelines(lines)
 
     file.close()
 
@@ -40,16 +40,16 @@ def shuffle_and_split(input_file, split_count, first_output_dataset, second_outp
         lines = file.readlines()
         
     # Set the header line and the lines to be shuffled
-    
+
     vars_header = lines[0]
     data_lines = lines[1:]
-    
+
     # Shuffle the lines
-    
+
     random.shuffle(data_lines)
-    
+
     # Split the lines and make two different halves of the split index
-    
+
     lines_datatest2 = [vars_header] + data_lines[:split_count]
     lines_datavalidation = [vars_header] + data_lines[split_count:]
     
@@ -63,11 +63,11 @@ def shuffle_and_split(input_file, split_count, first_output_dataset, second_outp
     
     with open(first_output_dataset, 'w') as dataset:
         dataset.writelines(lines_datatest2)
-        dataset.close()
+    dataset.close()
     
     with open(second_output_dataset, 'w') as dataset:
         dataset.writelines(lines_datavalidation)
-        dataset.close()
+    dataset.close()
 
 
 def print_distribution(file, test_variable):
