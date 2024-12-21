@@ -66,8 +66,8 @@ def train_knn(X_train, y_train, n_neighbors=5, weights='uniform', p=2):
     return knn
 
 # Train SVC
-def train_svc(X_train, y_train, kernel='linear'):
-    svc = SVC(kernel=kernel, probability=True, random_state=42)
+def train_svc(X_train, y_train, kernel='linear', C=1.0, gamma='scale'):
+    svc = SVC(kernel=kernel, C=C, gamma=gamma, probability=True, random_state=42)
     svc.fit(X_train, y_train)
     return svc
 
